@@ -1,27 +1,28 @@
 using FixerWrapperApi.Models;
-using FixerWrapperApi.Services;
+using FixerWrapperApi.Services.ExchangeRates;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FixerWrapperApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class ExchangeRatesController : ControllerBase
     {
-        private readonly IHttpService _httpService;
+        private readonly IExchangeRatesService _exchangeRatesService;
 
-        public ExchangeRatesController(IHttpService httpService)
+        public ExchangeRatesController(IExchangeRatesService exchangeRatesService)
         {
-            _httpService = httpService;
+            _exchangeRatesService = exchangeRatesService;
         }
 
         [HttpGet]
-        public async Task<ActionResult> OnGet()
+        public async Task<ActionResult> GettExchangeRates()
         {
-
-            ExchangeRate exchangeRate = await _httpService.GetExchangeRatesAsync();
+            ExchangeRate exchangeRate = await _exchangeRatesService.GetExchangeRatesAsync();
             if (exchangeRate == null)
+            {
                 return NotFound();
+            }
 
             return Ok(exchangeRate);
         }

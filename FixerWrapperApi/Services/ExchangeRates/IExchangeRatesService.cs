@@ -1,8 +1,8 @@
 ﻿using FixerWrapperApi.Models;
 
-namespace FixerWrapperApi.Services
+namespace FixerWrapperApi.Services.ExchangeRates
 {
-    public interface IHttpService
+    public interface IExchangeRatesService
     {
         Task<ExchangeRate> GetExchangeRatesAsync();
     }

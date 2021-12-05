@@ -1,12 +1,11 @@
 using FixerWrapperApi.Extensions;
-using FixerWrapperApi.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClients(builder.Configuration);
 
-builder.Services.AddScoped<IHttpService, HttpService>();
+builder.Services.AddDependencyInjections();
 
 builder.Services.AddControllers();
 
