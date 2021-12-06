@@ -2,7 +2,7 @@
 
 namespace FixerWrapperApi.Models
 {
-    public class Symbols
+    public class Symbols : FixerApiStatus
     {
         [JsonPropertyName("symbols")]
         public Dictionary<string, string> SupportedSymbols { get; set; }
