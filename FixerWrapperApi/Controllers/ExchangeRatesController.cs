@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixerWrapperApi.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     public class ExchangeRatesController : ControllerBase
     {
         private readonly IExchangeRatesService _exchangeRatesService;
@@ -15,8 +15,8 @@ namespace FixerWrapperApi.Controllers
             _exchangeRatesService = exchangeRatesService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetExchangeRates(string baseCurrency)
+        [HttpGet("{baseCurrency}")]
+        public async Task<ActionResult> GetExchangeRatesAsync(string baseCurrency)
         {
             Symbols symbols = await _exchangeRatesService.GetSupportedSymbolsAsync();
             if (!symbols.IsValid(baseCurrency))
