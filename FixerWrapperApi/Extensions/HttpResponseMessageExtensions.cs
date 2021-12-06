@@ -4,7 +4,7 @@
     {
         public static void AddRequestHeaders(this HttpRequestMessage httpRequestMessage, Dictionary<string, string> headers)
         {
-            if (headers.IsNullOrEmpty() == false)
+            if (!headers.IsNullOrEmpty())
             {
                 foreach (KeyValuePair<string, string> header in headers)
                 {

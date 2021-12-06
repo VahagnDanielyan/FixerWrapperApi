@@ -1,8 +1,7 @@
 ﻿namespace FixerWrapperApi.Models
 {
-    public class ExchangeRate
+    public class ExchangeRate : Status
     {
-        public bool Success { get; set; }
         public int Timestamp { get; set; }
         public string Base { get; set; }
         public string Date { get; set; }

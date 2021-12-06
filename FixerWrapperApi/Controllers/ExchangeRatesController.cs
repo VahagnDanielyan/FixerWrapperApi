@@ -16,21 +16,24 @@ namespace FixerWrapperApi.Controllers
         }
 
         [HttpGet("{baseCurrency}")]
-        public async Task<ActionResult> GetExchangeRatesAsync(string baseCurrency)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ExchangeRate>> GetExchangeRatesAsync(string baseCurrency)
         {
             Symbols symbols = await _exchangeRatesService.GetSupportedSymbolsAsync();
             if (!symbols.IsValid(baseCurrency))
             {
-                return BadRequest($"Symbol {baseCurrency} is not valid");
+                return NotFound($"Invalid baseCurrency - {baseCurrency}");
             }
 
             ExchangeRate exchangeRate = await _exchangeRatesService.GetExchangeRatesAsync(baseCurrency);
-            if (exchangeRate == null)
+            if (!exchangeRate.Success)
             {
-                return NotFound();
+                return BadRequest($"Code - {exchangeRate.Error.Code}, Info - {exchangeRate.Error.Info}");
             }
 
-            return Ok(exchangeRate);
+            return exchangeRate;
         }
     }
 }
