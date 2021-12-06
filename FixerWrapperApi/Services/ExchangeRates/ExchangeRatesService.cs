@@ -6,6 +6,7 @@ namespace FixerWrapperApi.Services.ExchangeRates
     public class ExchangeRatesService : IExchangeRatesService
     {
         private const string GetLatestUri = "/latest";
+        private const string SupportedSymbolsUri = "/symbols";
         private readonly IHttpService _httpservice;
         private readonly IConfiguration _configuration;
 
@@ -15,12 +16,20 @@ namespace FixerWrapperApi.Services.ExchangeRates
             _configuration = configuration;
         }
 
-        public async Task<ExchangeRate> GetExchangeRatesAsync()
+        public async Task<ExchangeRate> GetExchangeRatesAsync(string baseCurrency)
         {
-            string url = $"{GetLatestUri}?access_key={_configuration["FixerApiKey"]}&symbols=USD,AUD,CAD,PLN,MXN";
+            string url = $"{GetLatestUri}?access_key={_configuration["FixerApiKey"]}&base={baseCurrency}";
             ExchangeRate exchangeRate = await _httpservice.GetAsync<ExchangeRate>(url);
 
             return exchangeRate;
+        }
+
+        public async Task<Symbols> GetSupportedSymbolsAsync()
+        {
+            string url = $"{SupportedSymbolsUri}?access_key={_configuration["FixerApiKey"]}";
+            Symbols symbols = await _httpservice.GetAsync<Symbols>(url);
+
+            return symbols;
         }
     }
 }
